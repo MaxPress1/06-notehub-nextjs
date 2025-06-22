@@ -26,6 +26,7 @@ export default function NotesClient() {
     queryFn: () => fetchNotes(page, trimmedSearch),
     placeholderData: keepPreviousData,
   });
+
   return (
     <div className={css.app}>
       <div className={css.toolbar}>
@@ -51,9 +52,7 @@ export default function NotesClient() {
       {data && !isLoading && <NoteList notes={data.notes} />}
       {IsModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
       {(isLoading || isFetching) && <Loading />}
-      {(isError || data?.notes.length === 0) && (
-        <Error error={error?.message} />
-      )}
+      {(isError || data?.notes.length === 0) && <Error error={error} />}
     </div>
   );
 }
