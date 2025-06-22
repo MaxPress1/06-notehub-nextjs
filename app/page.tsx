@@ -1,10 +1,6 @@
 import css from "./page.module.css";
-import { Metadata } from "next";
 
 export default function Home() {
-  const metadata: Metadata = {
-    title: "Home page",
-  };
   return (
     <main>
       <div className={css.container}>
