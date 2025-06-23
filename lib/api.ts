@@ -3,14 +3,14 @@ import { type Note } from "../types/note";
 
 axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
-interface NoteResponse {
+export interface NoteResponse {
   notes: Note[];
   totalPages: number;
 }
 const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 export async function fetchNotes(
-  page: number,
+  page: number = 1,
   search?: string
 ): Promise<NoteResponse> {
   const res = await axios.get<NoteResponse>("/notes", {

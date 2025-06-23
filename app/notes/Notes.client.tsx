@@ -8,11 +8,15 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 import { useDebounce } from "use-debounce";
 import Pagination from "@/components/Pagination/Pagination";
 import css from "./page.module.css";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes, NoteResponse } from "@/lib/api";
 import Loading from "../loading";
 import Error from "./error";
 
-export default function NotesClient() {
+interface NotesClientProps {
+  initialData?: NoteResponse;
+}
+
+export default function NotesClient(initialData: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const [SearchText, setSearchText] = useState("");
@@ -25,6 +29,7 @@ export default function NotesClient() {
     queryKey: ["notes", page, trimmedSearch],
     queryFn: () => fetchNotes(page, trimmedSearch),
     placeholderData: keepPreviousData,
+    initialData,
   });
 
   return (

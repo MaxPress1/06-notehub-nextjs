@@ -1,9 +1,11 @@
 import NotesClient from "./Notes.client";
+import { fetchNotes } from "@/lib/api";
 
-export default function App() {
+export default async function Notes() {
+  const res = await fetchNotes();
   return (
     <div>
-      <NotesClient />
+      <NotesClient initialData={res} />
     </div>
   );
 }
