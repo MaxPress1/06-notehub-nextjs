@@ -16,7 +16,7 @@ interface NotesClientProps {
   initialData?: NoteResponse;
 }
 
-export default function NotesClient(initialData: NotesClientProps) {
+export default function NotesClient({ initialData }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [IsModalOpen, setIsModalOpen] = useState(false);
   const [SearchText, setSearchText] = useState("");
@@ -29,7 +29,7 @@ export default function NotesClient(initialData: NotesClientProps) {
     queryKey: ["notes", page, trimmedSearch],
     queryFn: () => fetchNotes(page, trimmedSearch),
     placeholderData: keepPreviousData,
-    initialData,
+    initialData: () => initialData,
   });
 
   return (
@@ -54,10 +54,10 @@ export default function NotesClient(initialData: NotesClientProps) {
           Create note +
         </button>
       </div>
-      {data && !isLoading && <NoteList notes={data.notes} />}
+      {isSuccess && <NoteList notes={data.notes} />}
       {IsModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
       {(isLoading || isFetching) && <Loading />}
-      {(isError || data?.notes.length === 0) && <Error error={error} />}
+      {isError && <Error error={error!} />}
     </div>
   );
 }
