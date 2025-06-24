@@ -18,10 +18,10 @@ interface NotesClientProps {
 
 export default function NotesClient({ initialData }: NotesClientProps) {
   const [page, setPage] = useState(1);
-  const [IsModalOpen, setIsModalOpen] = useState(false);
-  const [SearchText, setSearchText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
-  const [debouncedSearchText] = useDebounce(SearchText, 300);
+  const [debouncedSearchText] = useDebounce(searchText, 300);
 
   const trimmedSearch = debouncedSearchText.trim();
 
@@ -36,7 +36,7 @@ export default function NotesClient({ initialData }: NotesClientProps) {
     <div className={css.app}>
       <div className={css.toolbar}>
         <SearchBox
-          value={SearchText}
+          value={searchText}
           onChange={(value: string) => {
             setSearchText(value);
             setPage(1);
@@ -53,9 +53,9 @@ export default function NotesClient({ initialData }: NotesClientProps) {
         <button className={css.button} onClick={() => setIsModalOpen(true)}>
           Create note +
         </button>
+        {isModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
       </div>
-      {isSuccess && <NoteList notes={data.notes} />}
-      {IsModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}
+      {isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {(isLoading || isFetching) && <Loading />}
       {isError && <Error error={error!} />}
     </div>
